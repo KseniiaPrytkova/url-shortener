@@ -20,6 +20,7 @@ router.post(
     async (req, res) => {
     // ассинхрон запросы лучше обраб с помощью ф-и try catch - GOOD PRACTISE!!!
     try {
+        console.log('Body:', req.body)
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
             return res.status(400).json({

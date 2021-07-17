@@ -10,6 +10,8 @@ const nodemon = require('nodemon')
 // это наш будущий сервер
 const app = express()
 
+app.use(express.json({ extended:true }))
+
 // роуер - концепт мидлвейр в экспрессе, добавим мидлвэйр
 app.use('/api/auth', require('./routes/auth.routes'))
 
