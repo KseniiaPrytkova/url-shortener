@@ -10,7 +10,8 @@ const nodemon = require('nodemon')
 // это наш будущий сервер
 const app = express()
 
-// app.use('/api/auth')
+// роуер - концепт мидлвейр в экспрессе, добавим мидлвэйр
+app.use('/api/auth', require('./routes/auth.routes'))
 
 // с большой буквы ибо константа, если вдруг он не определен по умолч 5000
 const PORT = config.get('port') || 5000

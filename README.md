@@ -107,3 +107,43 @@ App has been started on port 5000...
 app.use('/api/auth')
 ```
 
+`mkdir routes`
+```
+// nак создать роут в экспрессе 
+const {Router} = require('express')
+const router = Router()
+
+module.exports = router
+```
+and (app.js)
+```
+app.use('/api/auth', require('./routes/auth.routes'))
+```
+
+теперь в роутс необходимо создать 2 пост запроса - мы подшлтовили 2 эндпоинта, по кот мы в дальнейшем будем работать:
+```
+router.post('/register', async (req, res) => {
+
+})
+
+router.post('/login', async (req, res) => {
+
+})
+```
+пока что у нас нет сущностей, работающих с пользователем, поэтому необходимо создать модель
+`mkdir models` and `touch User.js` in /models
+
+делаем авторизацию - ибо у каждого пользователя свой массив ссылок
+
+`npm bcryptjs` - библиотека для шифрования
+```
+const hashedPassword = await bcrypt.hash(password, 12)
+```
+
+валидация полей пароля и имя пользователя на експрессе: `npm i express-validator`
+
+// если дошли до этого этапа знач с польз все хорошо и нужно сделать его авторизацию
+// т.к у нас single page app, авторизацию будем делать через jwt token
+```
+$ npm i jsonwebtoken
+```
