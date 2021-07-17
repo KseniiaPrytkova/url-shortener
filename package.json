@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "server": "nodemon app.js"
+    "server": "nodemon app.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -23,6 +25,7 @@
   "homepage": "https://github.com/KseniiaPrytkova/url-shortener#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "concurrently": "^6.2.0",
     "config": "^3.3.6",
     "express": "^4.17.1",
     "express-validator": "^6.12.0",

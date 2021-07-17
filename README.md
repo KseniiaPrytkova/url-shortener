@@ -147,3 +147,23 @@ const hashedPassword = await bcrypt.hash(password, 12)
 ```
 $ npm i jsonwebtoken
 ```
+## подключаем фронт-энд
+
+все помещаем в папку client
+```
+$ npx create-react-app client
+```
+хотим использовать npm, а не yarn: `cd client/` ---> `rm -rf node_modules/` && `rm yarn.lock` && `rm -rf .git`
+
+удалим ненужное: App.css, App.test.js
+
+ установим библиотеки обратно: `npm i` in client folder
+ // чтоб в папке client --prefix client
+
+ в одном терминале запускать сервер, в другом клаянт неудобно, напишем еще один скрипт (use `concurrently`):
+ ```
+  "dev": "concurrently \"npm run server\" \"npm run client\""
+```
+
+чтоб не писать стили и упростить себе задачу: `materializecss.com`
+in client/ folder: `npm install materialize-css@next`
