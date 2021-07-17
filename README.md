@@ -147,7 +147,7 @@ const hashedPassword = await bcrypt.hash(password, 12)
 ```
 $ npm i jsonwebtoken
 ```
-## подключаем фронт-энд
+## подключаем фронт-энд (REACT)
 
 все помещаем в папку client
 ```
@@ -166,4 +166,9 @@ $ npx create-react-app client
 ```
 
 чтоб не писать стили и упростить себе задачу: `materializecss.com`
-in client/ folder: `npm install materialize-css@next`
+in client/ folder: `npm install materialize-css@next` and `npm i react-router-dom` (для работы с роутами)
+
+## Роуты
+теперь нам нужно создать набор страниц кот будут работать в нашем приложении:
+`cd client/ --> cd src/ ---> mkdir pages`
+в pages созд все необх страницы, кот пр своей сути явл реакт компонентами (тут будем писать на функциональных компонентах и хуках)
