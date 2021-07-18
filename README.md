@@ -211,3 +211,33 @@ status 200 on login when email and user match
 
 // {token, login, logout, userId} эти знач хочу перед через контекст всему нашему приложению
 cd src/ ---> mkdir context ---> touch AuthContext.js
+
+## Работа над бизнес логикой на сервере (2:05:00)
+routes/ ---> touch `link.routes.js` - эти роуты будут отвечать за генерацию ссылок, кот мы будем сокращать в приложении
+models/ ---> touch `Link.js`
+
+models/Link.js:
+```
+// ЭТО МОДЕЛЬ ССЫЛКИ
+const {Schema, model, Types} = require('mongoose')
+
+const schema = new Schema({
+    // понимать откуда идет данная ссылка 
+    from: {type: String, required: true},
+    // куда будет вести данная ссылка 
+    to: {type: String, required: true, unique: true},
+    code: {type: String, required: true, unique: true},
+    // когда данная ссылка была создана 
+    date: {type: Date, default: Date.now},
+    // количество кликов по ссылке
+    clicks: {type: Number, default: 0},
+    // необх связать эти ссылки с пользователем кот ее создал
+    owner: {type: Types.ObjectId, ref: 'User'}
+})
+
+module.exports = model('Link', schema)
+```
+
+routes/link.routes.js:
+```
+```
