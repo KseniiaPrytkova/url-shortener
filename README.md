@@ -199,7 +199,15 @@ client/package.json ---> добавим
 ![set-up](img/4.png)
 с помощью materialize toast буду показывать ошибки
 
-сделаю это с помощью еще одного зука на клменте - `message.hook.js`
+сделаю это с помощью еще одного хука на клменте - `message.hook.js`
 
 ![set-up](img/5.png)
 status 200 on login when email and user match
+
+## работа над авторизаией
+создаем хук `auth.hook.js`
+
+как раб с авторизаз если взпимод с jwt token - если мы его получаем,то нам необх его хранить в LOCAL STARAGE, если перзагруз с-му и в локал сторадже есть валидный токен, то мы его используем и человека кидаем в саму с-му
+
+// {token, login, logout, userId} эти знач хочу перед через контекст всему нашему приложению
+cd src/ ---> mkdir context ---> touch AuthContext.js
