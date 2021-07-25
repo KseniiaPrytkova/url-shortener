@@ -315,11 +315,15 @@ module.exports = router
 
 ![set-up](img/6.png)
 
-## Working on a Loader component
-by default we load routes where there is no authorization
+## Add <Loader /> component
+By default we load routes where there is no authorization.
 
-in `auth.hook.js` we can add new flag `const [ready, setReady] = useState(false)`
+In `auth.hook.js` we can add new flag `const [ready, setReady] = useState(false)`
 `
 add `Loader.js` component ([preloader from materialize](https://materializecss.com/preloader.html));
-now `Loader` works by default - and when the authorization module works, then we load our entire application
+now `Loader` works by default - and when the authorization module works, then we load our entire application.
+
+## DetailPage
+We also need `get` parameters (http://localhost:3000/detail/60f44265cb62848085e99fe5) - extract `id` (60f44265cb62848085e99fe5) and load the data. Use method `useParams` from `react-router-dom`.
+
 
