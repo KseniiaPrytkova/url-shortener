@@ -15,6 +15,7 @@ app.use(express.json({ extended:true }))
 // роуер - концепт мидлвейр в экспрессе, добавим мидлвэйр
 app.use('/api/auth', require('./routes/auth.routes'))
 app.use('/api/link', require('./routes/link.routes'))
+app.use('/t', require('./routes/redirect.routes'))
 
 // с большой буквы ибо константа, если вдруг он не определен по умолч 5000
 const PORT = config.get('port') || 5000
