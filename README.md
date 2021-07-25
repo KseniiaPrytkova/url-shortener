@@ -1,5 +1,11 @@
 # url-shortener
+Run:
+```
+$ npm i
+$ npm run dev
+```
 
+# Development
 План: сначала разработать базовый бэкэнд (разработать некоторые эндпоинты на node.js), потом соединить это все с фронт эндом.
 
 ## подключение сервера и базы данных mongoDB
@@ -308,3 +314,12 @@ module.exports = router
 ```
 
 ![set-up](img/6.png)
+
+## Working on a Loader component
+by default we load routes where there is no authorization
+
+in `auth.hook.js` we can add new flag `const [ready, setReady] = useState(false)`
+`
+add `Loader.js` component ([preloader from materialize](https://materializecss.com/preloader.html));
+now `Loader` works by default - and when the authorization module works, then we load our entire application
+
