@@ -16,7 +16,7 @@ router.post('/generate', auth, async (req, res) => {
         // npm short id
         // npm i shortid
         const code = shortid.generate()
-        console.log(code)
+        console.log('CODE:', code)
         // проверим а есть ли в базе уже такая ссылка from
         const existing = await Link.findOne({ from })
         if (existing) {
@@ -24,7 +24,7 @@ router.post('/generate', auth, async (req, res) => {
         }
 
         // cформируем ту ссылку кот явл сокращ
-        const to = baseUrl + '/t' + code
+        const to = baseUrl + '/t/' + code
 
         const link = new Link({
             code, to, from, owner: req.user.userId
@@ -36,7 +36,7 @@ router.post('/generate', auth, async (req, res) => {
 
 
     } catch (e) {
-        res.status(500).json({ message: 'Something went wrong... (link.routes1)'})
+        res.status(500).json({ message: 'Something went wrong... (in link.routes post)'})
     }
 })
 
@@ -48,7 +48,7 @@ router.get('/', auth, async (req, res) => {
         // ибо в jwt токен мы закодир юзер id
         res.json(links)
     } catch (e) {
-        res.status(500).json({ message: 'Something went wrong... (link.routes2)'})
+        res.status(500).json({ message: 'Something went wrong... (link.routes get)'})
     }
 })
 
@@ -58,7 +58,7 @@ router.get('/:id', auth, async (req, res) => {
         const link = await Link.findById(req.params.id)
         res.json(link)
     } catch (e) {
-        res.status(500).json({ message: 'Something went wrong... (link.routes3)'})
+        res.status(500).json({ message: 'Something went wrong... (link.routes get id)'})
     }
 })
 

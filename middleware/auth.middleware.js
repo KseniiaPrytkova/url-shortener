@@ -1,27 +1,27 @@
-// middleware - это обычная ф-я позвол перехватывать нек данные и делать нек локику
+// middleware - this is a common function that allows you to intercept some data and do some logic
 const jwt = require('jsonwebtoken')
 const config = require('config')
 
 module.exports = (req, res, next) => {
-    // баз провер - это спец метод RESP API кот провер доступность сервера
-    // т.е если это опшинс ничего делать не нужно, возвращ нэкст, т.е продолжаем делать запрос
+    // base check is a special method RESP API cat checks server availability
+    // if it's OPTIONS does not need to do anything, return next, that is, we continue to make the request
     if (req.method === 'OPTIONS') {
         return next()
     }
 
     try {
-        // получ объект токена 
+        // get token object
         const token = req.headers.authorization.split(' ')[1] // "Bearer TOKEN"
 
         if (!token) {
             return res.status(401).json({ message: 'There are no authorization' })
         }
 
-        // если токен есть, нам нужно его ракодировать 
+        // if there is a token, we need to decode it
         const decoded = jwt.verify(token, config.get('jwtSecret'))
-        // кладем раскодир токен в объект рэквеста (создам там поле юзер и туда положу)
+        // put the decoder token into the request object (create a user field there and put it there)
         req.user = decoded
-        // метод next() - это продолжить выполнение запроса 
+        // the next () method is to continue executing the request
         next()
     } catch (e) {
         res.status(401).json({ message: 'There are no authorization' })

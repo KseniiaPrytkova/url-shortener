@@ -6,77 +6,78 @@ $ npm run dev
 ```
 
 # Development
-План: сначала разработать базовый бэкэнд (разработать некоторые эндпоинты на node.js), потом соединить это все с фронт эндом.
+First develop a basic backend (develop some endpoints in `Node.js`), then connect it all to the front end.
 
-## подключение сервера и базы данных mongoDB
-1) начинаем с инициализации проекта
+## Connect server; connect database mongoDB
+1) Initialize the project:
 ```
 $ npm init
 ```
-в корне проекта должен лежать бэкэнд
+the backend must be at the root of the project
 
-2) установим базовые зависимости
+2) Install basic dependencies:
 ```
 $ npm install express mongoose
 ```
-пакет mongoose отвечает за соединение с базой и за работу с MongoDB
+the `mongoose` package is responsible for connecting to the database and for working with `MongoDB`
 
 ```
 $ npm install -D nodemon concurrently
 ```
--D чтоб попало в dev dependencies
+`-D` flag to get into dev dependency
 
-3) добавим скрипты в package.json (скрипт test мы удалили)
+3) Add scripts to `package.json` (we removed the test script):
 ```
   "scripts": {
     "start": "node app.js",
     "server": "nodemon app.js"
   },
 ```
-nodemon - пакет позволяющий перезапускать сервер чтоб не делать это вручную
+`nodemon` - a package that allows you to restart the server so as not to do it manually
 
-Протестируем скрипты (в app.js напишем `console.log('App')`):
+Testing scripts (in `app.js` write `console.log('App')`):
 ```
 $ npm run server
 ```
 
-4) как создаем базовые приложения на express - для начала мы его подключаем. В node.js
-чтоб подключать пакеты есть глобальная функция require
+4) When we create basic applications in `express`, we first connect it. In `Node.js`
+to include packages there is a global function `require`
 
-хардкодить константы (номер порта 5000) плохо, нужно выносить в общий конфиг (`app.listen(5000, () => console.log(`App has been started...`))`); установим пакет `config` ($npm i config)
-https://www.npmjs.com/package/config
+Hardcoding constants (port number 5000) is bad, we need to put them in the general config (`app.listen (5000, () => console.log (` App has been started ... `))`); install the `config` package: (`$ npm i config`).
+
+[config package](https://www.npmjs.com/package/config)
 ```
 $ npm install config
 $ mkdir config
 $ vi config/default.json
 ```
-в config/default.json будем хранить константы для нашего проекта
+in `config/default.json` we will store constants for our project
 
- настройка сервера завершена:
-```
-// как создаем базовые приложения на express - для начала мы его подключаем. В node.js
-// чтоб подключать пакеты есть глобальная функция require
+Server configuration completed:
+``` js
 const express = require('express')
 const config = require('config')
 
-// переменная, кот явл результатом работы ф-и express
-// это наш будущий сервер
+// variable, which is the result of fn express()
+// this is our future server
 const app = express()
 
-// с большой буквы ибо константа, если вдруг он не определен по умолч 5000
+// capital letters for a constant, if suddenly it is not defined then default val is 5000
 const PORT = config.get('port') || 5000
 
 app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`))
 ```
 
-подключимся к mongoDB:
-подключ пакет:
+Connect to `mongoDB`:
+connect package:
 ```
 const mongoose = require('mongoose')
 ```
 вызвать метод `connect`, кот позволит подключ к БД:
 т.к. метод `connect` возвращает Promise, то чтоб воспольз удобным синтаксисом async await обернем все в ф-ю:
 обертка чтоб польз синтаксисом async await:
+
+call the `connect` method, which will allow the connection to the database: since the `connect` method returns a `Promise`, so to use the convenient `async await` syntax, we wrap everything in fn - a wrapper to use the async await syntax:
 ```
 async function start() {
     try {
@@ -89,7 +90,7 @@ async function start() {
 start()
 ```
 
-mongoDB site:
+[mongoDB site](https://cloud.mongodb.com/v2/60f29390b731e4772da5a418#metrics/replicaSet/60f294c178856a3e8986fb15/explorer/app/links/find):
 1) new Project
 .
 .
@@ -100,22 +101,24 @@ $ npm run server
 ```
 connection method: Connect Your Application
 ![set-up](img/1.png)
-копируем строчку `mongodb+srv://kseniia:<password>@cluster0.anb76.mongodb.net/app?retryWrites=true&w=majority` и встав ее в config ("mongoUri")
-вместо myFirstDatabase ---> app; вмесо <password> вписать свой пароль
-теперь:
+copy the line `mongodb+srv://kseniia:<password>@cluster0.anb76.mongodb.net/app?retryWrites=true&w=majority` and paste it in `config` (`"mongoUri"`)
+instead of myFirstDatabase ---> app; instead of <password> write your password
+
+next:
 ```
 [nodemon] starting `node app.js`
 App has been started on port 5000...
 ```
-## теперь нам надо зарегистрировать определенные роуты, кот будут по разному обрабат api запросы с нашего фронд энда
-напр для авторизации:
+
+## Now we need to register certain routes that will process api requests from our frontend in different ways
+for example for authorization:
 ```
 app.use('/api/auth')
 ```
 
 `mkdir routes`
 ```
-// nак создать роут в экспрессе 
+// how to create a route in express
 const {Router} = require('express')
 const router = Router()
 
@@ -126,7 +129,7 @@ and (app.js)
 app.use('/api/auth', require('./routes/auth.routes'))
 ```
 
-теперь в роутс необходимо создать 2 пост запроса - мы подшлтовили 2 эндпоинта, по кот мы в дальнейшем будем работать:
+Now in the routes it is necessary to create 2 post requests - we have prepared 2 endpoints, on which we will work in the future:
 ```
 router.post('/register', async (req, res) => {
 
@@ -136,50 +139,49 @@ router.post('/login', async (req, res) => {
 
 })
 ```
-пока что у нас нет сущностей, работающих с пользователем, поэтому необходимо создать модель
+So far we do not have entities working with the user, so we need to create a model
 `mkdir models` and `touch User.js` in /models
 
-делаем авторизацию - ибо у каждого пользователя свой массив ссылок
+We need to implement authorization - because each user has his own array of links
 
-`npm bcryptjs` - библиотека для шифрования
+`npm bcryptjs` - encryption library
 ```
 const hashedPassword = await bcrypt.hash(password, 12)
 ```
 
-валидация полей пароля и имя пользователя на експрессе: `npm i express-validator`
+validation of password and username fields on express: `npm i express-validator`
 
-// если дошли до этого этапа знач с польз все хорошо и нужно сделать его авторизацию
-// т.к у нас single page app, авторизацию будем делать через jwt token
+If we have reached this stage, everything is fine with users and we need to authorize them. Because we have a `single page app`, we will do authorization via `jwt token`.
 ```
 $ npm i jsonwebtoken
 ```
-## подключаем фронт-энд (REACT)
 
-все помещаем в папку client
+## Connect the front-end (REACT)
+
+`client` folder:
 ```
 $ npx create-react-app client
 ```
-хотим использовать npm, а не yarn: `cd client/` ---> `rm -rf node_modules/` && `rm yarn.lock` && `rm -rf .git`
+we want to use `npm`, not `yarn`: `cd client/` ---> `rm -rf node_modules/` && `rm yarn.lock` && `rm -rf .git`;
 
-удалим ненужное: App.css, App.test.js
+remove unnecessary: App.css, App.test.js;
 
- установим библиотеки обратно: `npm i` in client folder
- // чтоб в папке client --prefix client
+install the libraries back: `npm i` in client folder (so that in the client folder `--prefix client`);
 
- в одном терминале запускать сервер, в другом клаянт неудобно, напишем еще один скрипт (use `concurrently`):
+start the server in one terminal and the client in the other terminal is inconvenient, so write another script (use `concurrently`):
  ```
   "dev": "concurrently \"npm run server\" \"npm run client\""
 ```
 
-чтоб не писать стили и упростить себе задачу: `materializecss.com`
-in client/ folder: `npm install materialize-css@next` and `npm i react-router-dom` (для работы с роутами)
+so as not to write styles and to simplify the task: [materializecss.com](materializecss.com):
+in client/ folder: `npm install materialize-css@next` and `npm i react-router-dom` (for working with routes)
 
-## Роуты
-теперь нам нужно создать набор страниц кот будут работать в нашем приложении:
+## Routes
+now we need to create a set of pages that will work in our application:
 `cd client/ --> cd src/ ---> mkdir pages`
-в pages созд все необх страницы, кот пр своей сути явл реакт компонентами (тут будем писать на функциональных компонентах и хуках)
+in `pages` create all the necessary pages, which in their essence are `react components` (here we will write on functional components and hooks)
 
-## прокси 
+## Proxy
 ```
   const registerHandler = async () => {
       try {
@@ -189,129 +191,38 @@ in client/ folder: `npm install materialize-css@next` and `npm i react-router-do
   }
 ```
 ![set-up](img/2.png)
-проблема с номером порта (у нас 5000б там 3000)
+the problem with the port number (we have 5000 there 3000)
 
-МЫ БУДЕМ ПРОКСИРОВАТЬ ЗАПРОСЫ С КЛИЕНТА НА СЕРВЕР
-client/package.json ---> добавим
+WE WILL PROXY REQUESTS FROM THE CLIENT TO THE SERVER
+`client/package.json` ---> add
 ```
 "proxy": "http://localhost:5000"
 ```
 
-теперь у нас ошибка 400:
+now we have error 400:
 ![set-up](img/3.png)
-Связу́ющее програ́ммное обеспе́чение (англ. middleware; также переводится как промежу́точное программное обеспечение, программное обеспечение среднего слоя, подпрогра́ммное обеспечение, межплатфо́рменное программное обеспечение) — широко используемый термин, означающий слой или комплекс технологического программного обеспечения для обеспечения взаимодействия между различными приложениями, системами, компонентами.
 
-## обработка ошибок
-![set-up](img/4.png)
-с помощью materialize toast буду показывать ошибки
+Bridging software (English middleware; also translated as middleware, middleware, subprogram, middleware) is a widely used term meaning a layer or complex of technological software to ensure interaction between various applications, systems, components.
 
-сделаю это с помощью еще одного хука на клменте - `message.hook.js`
+## Error processing
+show errors with the help of `materialize toast`
+
+Do that with the help of another hook on the client - `message.hook.js`
 
 ![set-up](img/5.png)
 status 200 on login when email and user match
 
-## работа над авторизаией
-создаем хук `auth.hook.js`
+## Authorization
+Create a hook `auth.hook.js`
 
-как раб с авторизаз если взпимод с jwt token - если мы его получаем,то нам необх его хранить в LOCAL STARAGE, если перзагруз с-му и в локал сторадже есть валидный токен, то мы его используем и человека кидаем в саму с-му
+How to work with authorization if we interact with a `jwt token` - if we receive it, then we need to store it in `LOCAL STARAGE`, if the system is rebooted and there is a valid token in the local store, then we use it and throw the user into the system.
 
-// {token, login, logout, userId} эти знач хочу перед через контекст всему нашему приложению
-cd src/ ---> mkdir context ---> touch AuthContext.js
+`{token, login, logout, userId}` pass these values through the context to entire application;
+cd `src/` ---> `mkdir context` ---> `touch AuthContext.js`
 
-## Работа над бизнес логикой на сервере (2:05:00)
-routes/ ---> touch `link.routes.js` - эти роуты будут отвечать за генерацию ссылок, кот мы будем сокращать в приложении
+## Logic on the server (link shortening)
+routes/ ---> touch `link.routes.js` - these routes will be responsible for generating links, which we will shorten in the application;
 models/ ---> touch `Link.js`
-
-models/Link.js:
-```
-// ЭТО МОДЕЛЬ ССЫЛКИ
-const {Schema, model, Types} = require('mongoose')
-
-const schema = new Schema({
-    // понимать откуда идет данная ссылка 
-    from: {type: String, required: true},
-    // куда будет вести данная ссылка 
-    to: {type: String, required: true, unique: true},
-    code: {type: String, required: true, unique: true},
-    // когда данная ссылка была создана 
-    date: {type: Date, default: Date.now},
-    // количество кликов по ссылке
-    clicks: {type: Number, default: 0},
-    // необх связать эти ссылки с пользователем кот ее создал
-    owner: {type: Types.ObjectId, ref: 'User'}
-})
-
-module.exports = model('Link', schema)
-```
-
-routes/link.routes.js:
-```
-const {Router} = require('express')
-const config = require('config')
-const shortid = require('shortid')
-const Link = require('../models/Link')
-const auth = require('../middleware/auth.middleware')
-const router = Router()
-
-// there are 3 endpoints here
-router.post('/generate', auth, async (req, res) => {
-    try {
-        const baseUrl = config.get('baseUrl')
-        // с фронтэнда получаем объект from - т.е тот путь откуда мы делаем данную ссылку
-        // в последств нам нужнг будет редиректить польз п данному пути
-        const {from} = req.body
-
-        // npm short id
-        // npm i shortid
-        const code = shortid.generate()
-        console.log(code)
-        // проверим а есть ли в базе уже такая ссылка from
-        const existing = await Link.findOne({ from })
-        if (existing) {
-            return res.json({ link: existing })
-        }
-
-        // cформируем ту ссылку кот явл сокращ
-        const to = baseUrl + '/t' + code
-
-        const link = new Link({
-            code, to, from, owner: req.user.userId
-        })
-
-        await link.save()
-
-        res.status(201).json({ link })
-
-
-    } catch (e) {
-        res.status(500).json({ message: 'Something went wrong... (link.routes1)'})
-    }
-})
-
-router.get('/', auth, async (req, res) => {
-    try {
-        // to get all links from db:
-        const links = await Link.find({ owner: req.user.userId }) //?? how to detect what user owns this links
-        // нам надо получ дан с фронт энда по пользователю - можем это сделать по jwt токену
-        // ибо в jwt токен мы закодир юзер id
-        res.json(links)
-    } catch (e) {
-        res.status(500).json({ message: 'Something went wrong... (link.routes2)'})
-    }
-})
-
-// getting the link by id
-router.get('/:id', auth, async (req, res) => {
-    try {
-        const link = await Link.findById(req.params.id)
-        res.json(link)
-    } catch (e) {
-        res.status(500).json({ message: 'Something went wrong... (link.routes3)'})
-    }
-})
-
-module.exports = router
-```
 
 ![set-up](img/6.png)
 

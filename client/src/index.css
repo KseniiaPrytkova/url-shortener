@@ -1,19 +1,33 @@
 @import "~materialize-css/dist/css/materialize.min.css";
 
-input.yellow-input {
-  border-bottom: 1px solid #fff!important;
-  box-shadow: 0 1px 0 0 #fff!important;
+input.custom-input {
+  border-bottom: 1px solid black!important;
+  box-shadow: 0 1px 0 0 black!important;
 }
 
-input.yellow-input + label {
-  color: #ffffff!important;
+input.custom-input + label {
+  color: black!important;
 }
 
-input.yellow-input:focus + label {
-  color: #ffeb3b!important;
+input.custom-input:focus + label {
+  color: purple!important;
 }
 
-input.yellow-input:focus {
-  border-bottom: 1px solid #ffeb3b!important;
-  box-shadow: 0 1px 0 0 #ffeb3b!important;
+input.custom-input:focus {
+  border-bottom: 1px solid purple!important;
+  box-shadow: 0 1px 0 0 purple!important;
+}
+
+input.custom-input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  font-size: x-small;
+  opacity: 1; /* Firefox */
+}
+
+.card-title {
+  padding-bottom: 10%;
+}
+
+a {
+  color: teal;
 }

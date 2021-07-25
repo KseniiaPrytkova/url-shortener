@@ -1,30 +1,30 @@
-// как создаем базовые приложения на express - для начала мы его подключаем. В node.js
-// чтоб подключать пакеты есть глобальная функция require
+// how to create basic express applications - first we connect it in node.js
+// to include packages there is a global function require
 const express = require('express')
 const config = require('config')
-// чтоб подключ к mongoDB:
+// to connect to mongoDB:
 const mongoose = require('mongoose')
 const nodemon = require('nodemon')
 
-// переменная, кот явл результатом работы ф-и express
-// это наш будущий сервер
+// variable, which is the result of express fn working
+// this is our future server
 const app = express()
 
 app.use(express.json({ extended:true }))
 
-// роуер - концепт мидлвейр в экспрессе, добавим мидлвэйр
+// router - the concept of a middlewire in the express, so add a middlewire
 app.use('/api/auth', require('./routes/auth.routes'))
 app.use('/api/link', require('./routes/link.routes'))
 app.use('/t', require('./routes/redirect.routes'))
 
-// с большой буквы ибо константа, если вдруг он не определен по умолч 5000
+// capital letters for a constant, if suddenly it is not defined by default it's 5000
 const PORT = config.get('port') || 5000
 
 async function start() {
     try {
-        // подождем пока промис завершится
-        // 1й парам - тот url адр по кот мы будем добавлять бд
-        // 2й парам - набор опций 
+        // wait for the promise to complete
+        // 1st pair - the url adr to which we will add the database
+        // 2nd pair - a set of options
         await mongoose.connect(config.get('mongoUri'), {
             useNewUrlParser: true,
             useUnifiedTopology: true,
@@ -34,7 +34,7 @@ async function start() {
         app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`))
     } catch (e) {
         console.log('Server Error', e.message)
-        // выйдем из node.js с помощью глобал объекта process и его метода exit
+        // exit node.js using the process object global and its exit method
         process.exit(1)
 
     }

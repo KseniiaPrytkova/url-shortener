@@ -11,7 +11,7 @@ export const AuthPage = () => {
         email: '', password: ''
     })
 
-    // воспольз хуком useEffect и буду сдедить за ошибкой и буду тут зависеть от error 
+    // use the useEffect hook;  monitor the error and depend on the error here
     useEffect(() => {
         message(error)
         clearError()
@@ -45,10 +45,10 @@ export const AuthPage = () => {
     return (
         <div className="row">
             <div className="col s6 offset-s3">
-                <h1>Shorten the link</h1>
+                <h1 className="">Shorten the link</h1>
                 
-                <div className="card blue darken-1">
-                    <div className="card-content white-text">
+                <div className="card teal lighten-2">
+                    <div className="card-content">
                         <span className="card-title">Authorization</span>
                         <div>
 
@@ -58,7 +58,7 @@ export const AuthPage = () => {
                                     id="email"
                                     type="text"
                                     name="email"
-                                    className="yellow-input"
+                                    className="custom-input"
                                     value={form.email}
                                     onChange={changeHandler}
                                 />
@@ -71,7 +71,7 @@ export const AuthPage = () => {
                                     id="password"
                                     type="password"
                                     name="password"
-                                    className="yellow-input"
+                                    className="custom-input"
                                     value={form.password}
                                     onChange={changeHandler}
                                 />
@@ -82,7 +82,7 @@ export const AuthPage = () => {
                     </div>
                     <div className="card-action">
                         <button 
-                            className="btn yellow darken-4" 
+                            className="btn white deep-purple-text"
                             style={{marginRight:10}}
                             onClick={loginHandler}
                             disabled={loading}
@@ -90,7 +90,7 @@ export const AuthPage = () => {
                             Sign In
                         </button>
                         <button 
-                            className="btn grey lighten-1 black-text"
+                            className="btn deep-purple"
                             onClick={registerHandler}
                             disabled={loading}
                         >

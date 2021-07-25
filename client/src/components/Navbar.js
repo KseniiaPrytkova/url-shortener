@@ -15,7 +15,7 @@ export const Navbar = () => {
 
     return (
         <nav>
-            <div class="nav-wrapper blue darken-1" style={{ padding: '0 2rem' }}>
+            <div class="nav-wrapper deep-purple" style={{ padding: '0 2rem' }}>
                 <span href="/" class="brand-logo">Shortening links</span>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <li><NavLink to="/create">Create</NavLink></li>

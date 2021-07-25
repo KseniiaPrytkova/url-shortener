@@ -6,7 +6,7 @@ export const LinksLinks = ({ links }) => {
         return <p className="center">No links yet</p>
     }
     return (
-        <table>
+        <table class="responsive-table">
             <thead>
                 <tr>
                     <th>#</th>
@@ -21,7 +21,7 @@ export const LinksLinks = ({ links }) => {
                 return (
                     <tr key={link._id}>
                         <td>{index + 1}</td>
-                        <td>{link.from}</td>
+                        <td>{link.from.slice(0, 8) + '...'}</td>
                         <td>{link.to}</td>
                         <td>
                             <Link to={`/detail/${link._id}`}>Open</Link>
