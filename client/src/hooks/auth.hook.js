@@ -11,7 +11,7 @@ export const useAuth = () => {
         setToken(jwtToken)
         setUserId(id)
 
-        // localStorage - базовый браузерный API
+        // localStorage - basic browser API
         localStorage.setItem(storageName, JSON.stringify({
             userId: id, token: jwtToken
         }))
@@ -23,9 +23,9 @@ export const useAuth = () => {
         localStorage.removeItem(storageName)
     }, [])
 
-    // чтоб приложение при загрузке смотрело (дан хук смотрел) в локал сторедж и проверял если там данные - 
-    // если они есть чтоб он их записал в локал состояние - const [token, setToken] = useState(null)- 
-    // для жтого использ хук useEffect
+    // so that the application looks at loading (this hook looks) into the local storage and checks if there is data -
+    // if they exist then write them to the local state - const [token, setToken] = useState (null) - 
+    // use useEffect hook for this
     useEffect(() => {
         const data = JSON.parse(localStorage.getItem(storageName))
 

@@ -9,21 +9,21 @@ const router = Router()
 router.post('/generate', auth, async (req, res) => {
     try {
         const baseUrl = config.get('baseUrl')
-        // с фронтэнда получаем объект from - т.е тот путь откуда мы делаем данную ссылку
-        // в последств нам нужнг будет редиректить польз п данному пути
+        // from the frontend we get the from object - that is, the path from where we make this link
+         // later we will need to redirect the user along this path
         const {from} = req.body
 
         // npm short id
         // npm i shortid
         const code = shortid.generate()
         console.log('CODE:', code)
-        // проверим а есть ли в базе уже такая ссылка from
+        // check if the database already has such a link from
         const existing = await Link.findOne({ from })
         if (existing) {
             return res.json({ link: existing })
         }
 
-        // cформируем ту ссылку кот явл сокращ
+        // we will form the link that is shortened
         const to = baseUrl + '/t/' + code
 
         const link = new Link({
@@ -44,8 +44,8 @@ router.get('/', auth, async (req, res) => {
     try {
         // to get all links from db:
         const links = await Link.find({ owner: req.user.userId }) //?? how to detect what user owns this links
-        // нам надо получ дан с фронт энда по пользователю - можем это сделать по jwt токену
-        // ибо в jwt токен мы закодир юзер id
+        // we need to receive data from the front end for the user - we can do this using the jwt token
+        // because in the jwt token we have coded the user id
         res.json(links)
     } catch (e) {
         res.status(500).json({ message: 'Something went wrong... (link.routes get)'})

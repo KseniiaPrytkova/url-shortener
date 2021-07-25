@@ -1,8 +1,8 @@
 # url-shortener
-login:
+login:<br>
 ![login](img/login.gif)
-
-main part:
+<br>
+main part:<br>
 ![main](img/main.gif)
 
 Run:

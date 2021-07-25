@@ -8,7 +8,7 @@ import {Loader} from './components/Loader'
 import 'materialize-css'
 
 function App() {
-  // {token, login, logout, userId} эти знач хочу перед через контекст всему нашему приложению
+  // {token, login, logout, userId} these values will pass through the context to our entire application
   const {token, login, logout, userId, ready} = useAuth()
   const isAuthenticated = !!token
   const routes = useRoutes(isAuthenticated)

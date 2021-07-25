@@ -7,18 +7,18 @@ const {check, validationResult} = require('express-validator')
 const User = require('../models/User')
 const router = Router()
 
-// префикс этого роута /api/auth + register(например)
-// 2й парам - ф-я где пропишем логику 
+// prefix of this route /api/auth + register(for example)
+// 2d param - fn where we write the logic 
 router.post(
     '/register',
-    // массив мидлвееров, кот будут делать валидацию
+    // an array of middlewares that will do the validation
     [
         check('email', 'Wrong email').isEmail(),
         check('password', 'Minimum password length must be 6 chars')
             .isLength({ min: 6 })
     ],
     async (req, res) => {
-    // ассинхрон запросы лучше обраб с помощью ф-и try catch - GOOD PRACTISE!!!
+    // asynchronous requests is better to handle with try catch function - GOOD PRACTISE!!!
     try {
         console.log('Body:', req.body)
         const errors = validationResult(req)
@@ -31,22 +31,22 @@ router.post(
         }
         const {email, password} = req.body
 
-        // а есть ли уже такой эмеил у нас в базе
+        // is there already such an email in our database?
         const candidate = await User.findOne({ email })
         if (candidate) {
             return res.status(400).json({ message: 'This user already exists'})
         }
 
-        // в против случае создадим нового польз и захешируем его пароль, чтоб не взломали
+        // otherwise, we will create a new user and hash its password so as not to be hacked
         // npm i bcryptjs
         const hashedPassword = await bcrypt.hash(password, 12)
         const user = new User({ email, password: hashedPassword })
-        // ждем пока польз сохранится
+        // waiting for the user to be saved
         await user.save()
         console.log(user)
         res.status(201).json({ message: 'User was created'})
     } catch (e) {
-        // с помощью объекта responce
+        // with the help of object responce
         res.status(500).json({ message: 'Something went wrong... while register'})
     }
 })
@@ -76,20 +76,20 @@ router.post(
             return res.status(400).json({ message: 'User not found' })
         }
 
-        // пользователя мы нашли, теперь нужно проверить а совпадают ли его пароли
+        // We found the user, now we need to check if his passwords match
         const isMatch = await bcrypt.compare(password, user.password)
         if (!isMatch) {
             return res.status(400).json({ message: 'Wrong password, try again' })
         }
 
-        // если дошли до этого этапа знач с польз все хорошо и нужно сделать его авторизацию
-        // т.к у нас single page app, авторизацию будем делать через jwt token
+        // if you have reached this stage, everything is fine with the user and you need to authorize him
+        // because we have single page app, authorization will be done via jwt token
         const token = jwt.sign(
-            // 1й парам: те данные что должны быть зашифр в jwt token'e
+            // 1st param: the data that should be encrypted in the jwt token
             { userId: user.id },
-            // 2й парам: нек секрет ключ, создадим его в конфиге
+            // 2d param: some secret key, create it in the config
             config.get('jwtSecret'),
-            // 3й парам: через сколько jwt token закончит существование; рекоменд 1 час
+            // 3rd param: after how many jwt token will end its existence; recommended 1 hour
             { expiresIn: '1h' }
         )
 

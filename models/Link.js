@@ -1,17 +1,17 @@
-// ЭТО МОДЕЛЬ ССЫЛКИ
+// THIS IS A MODEL OF THE LINK
 const {Schema, model, Types} = require('mongoose')
 
 const schema = new Schema({
-    // понимать откуда идет данная ссылка 
+    // understand where this link comes from 
     from: {type: String, required: true},
-    // куда будет вести данная ссылка 
+    // where this link will lead
     to: {type: String, required: true, unique: true},
     code: {type: String, required: true, unique: true},
-    // когда данная ссылка была создана 
+    // when this link was created 
     date: {type: Date, default: Date.now},
-    // количество кликов по ссылке
+    // number of clicks on the link
     clicks: {type: Number, default: 0},
-    // необх связать эти ссылки с пользователем кот ее создал
+    // you need to associate these links with the user who created it
     owner: {type: Types.ObjectId, ref: 'User'}
 })
 

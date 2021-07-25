@@ -38,6 +38,3 @@ export const DetailPage = () => {
         </>
     )
 }
-
-// we also need get parameters (http://localhost:3000/detail/60f44265cb62848085e99fe5)
-// id (60f44265cb62848085e99fe5)
